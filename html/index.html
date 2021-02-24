@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Mobile scale -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../files/css/index.css">
+</head>
+
+<body>
+    <!-- MAIN LAYOUT -->
+    <div id="mainLayout">
+        <!-- HEADER -->  
+        <div id="header_container">   
+            <div id="3d_container">
+                <div class="centered title_align">       
+                    <p class="title">
+                    Simon
+                    </p>
+                    <p class="subtitle">
+                    subtitle
+                    </p>
+                </div>
+            </div>    
+        </div>
+        <div id="body_container">
+        <!-- BODY -->              
+        </div>
+    </div>    
+
+    <script type="module">
+        // Import our local module
+        import { main } from "../js/index.js";
+
+        // Launch the DOMContentLoaded event listener
+        main();
+    </script>
+</body>
+</html>
