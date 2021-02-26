@@ -149,6 +149,30 @@ export function main() {
     });
 }
 
+function build_events(){
+    // BUILD CURSOR 
+    console.log()
+    const images = document.getElementsByTagName("img")
+    const cursor_custom = document.getElementById("cursor_custom")
+    const html = document.getElementsByTagName("html")
+
+    document.addEventListener("mousemove", event => {
+        cursor_custom.style.top = `${event.pageY}px`
+        cursor_custom.style.left = `${event.pageX}px`
+    })
+    for (const i of images){
+        i.addEventListener("mouseenter", () => {
+            cursor_custom.style.display = "block"
+            console.log(i.dataset.angle)
+            i.style.transform = `scale(1.1) rotate(${ i.dataset.angle }deg)`
+        })
+        i.addEventListener("mouseleave", () => {
+            cursor_custom.style.display = "none"
+            i.style.transform = `scale(1) rotate(${ i.dataset.angle }deg)`
+        })        
+    }
+}
+
 function build_element_with_text(element, type, text) {
     element = document.createElement(type);
     element.textContent = text;
