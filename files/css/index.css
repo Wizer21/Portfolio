@@ -7,7 +7,7 @@ html
 body
 {
     margin: 0px;
-    cursor: none;
+    max-width: 100vw;
 }
 #mainLayout
 {
@@ -24,6 +24,7 @@ body
     border: 10px solid black;
     position: absolute;
     border-radius: 50%;
+    z-index: 2;
     /* transition-duration: 300ms; */
     /* transition-timing-function: ease-out; */
     animation: cursorAnim .5s infinite alternate;
@@ -44,23 +45,25 @@ body
 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+
+    padding-top: 10%;
+    padding-bottom: 10%;
+    overflow: hidden;
 }
 .left_col
 {
     grid-row: 1;
     grid-column: 1;
-    overflow: hidden;
 }
 .right_col
 {
     grid-row: 1;
     grid-column: 2;
-    overflow: hidden;   
 }
 
 .text_div
 {
-    margin: 50px;
+    margin: 10%;
 }
 
 img
@@ -69,18 +72,9 @@ img
     object-position: center;
     width: 100%;
     height: 100%;
-    
-    transition-property: transform;
-    transform: scale(1);
-    transition-duration: 500ms;
-}
-img:hover
-{
-    transform: scale(1.05);
-    
-}
+    z-index: 1;
+    cursor: none;
 
-.row
-{
-    height: 40em;
+    transition-property: transform;
+    transition-duration: 500ms;
 }

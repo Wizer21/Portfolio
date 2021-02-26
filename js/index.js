@@ -91,12 +91,6 @@ const data = [
 
 export function main() {
     document.addEventListener("DOMContentLoaded", () => {
-        // BUILD CURSOR 
-        const cursor = document.getElementById("cursor_custom")
-        document.addEventListener("mousemove", event => {
-            cursor.setAttribute("style", `top: ${event.pageY}px; left: ${event.pageX}px;`)
-        })
-
         // BUILD INTERFACE 
         let body = document.getElementById("body_container");
         let container_3D = document.getElementById("container_3d");
@@ -107,44 +101,51 @@ export function main() {
         let new_elem;
         for (let i = 0; i < data.length; i++) {
             // BUILD DIVS
-            new_div = document.createElement("div");
-            new_elem_text = document.createElement("div");
-            new_elem_image = document.createElement("div");
+            new_div = document.createElement("div")
+            new_elem_text = document.createElement("div")
+            new_elem_image = document.createElement("div")
 
             // BUILD IMAGE LINK
-            new_elem = document.createElement("a");
-            new_elem.href = data[i].git_link;
+            new_elem = document.createElement("a")
+            new_elem.href = data[i].git_link
             new_elem.target = "_blank"
-            new_elem_image.appendChild(new_elem);
+            new_elem_image.appendChild(new_elem)
+
             // BUILD IMAGE
-            new_elem = document.createElement("img");
-            new_elem.src = data[i].image;
+            new_elem = document.createElement("img")
+            new_elem.src = data[i].image
             new_elem.className = "row"
-            new_elem_image.children[0].appendChild(new_elem);
+            new_elem.dataset.angle = `${dice(0, 10) - 5}`
+            new_elem.style.transform = `rotate(${ new_elem.dataset.angle }deg)`
+            new_elem_image.children[0].appendChild(new_elem)
 
             // BUILD DESCRIPTION
-            new_elem_text.appendChild(build_element_with_text(new_elem, "h1", data[i].title));
-            new_elem_text.appendChild(build_element_with_text(new_elem, "p", data[i].description));
-            new_elem_text.appendChild(build_element_with_text(new_elem, "p", "Start " + data[i].start_date));
-            new_elem_text.appendChild(build_element_with_text(new_elem, "p", "End " + data[i].end_date));
+            new_elem_text.appendChild(build_element_with_text(new_elem, "h1", data[i].title))
+            new_elem_text.appendChild(build_element_with_text(new_elem, "p", data[i].description))
+            new_elem_text.appendChild(build_element_with_text(new_elem, "p", "Start " + data[i].start_date))
+            new_elem_text.appendChild(build_element_with_text(new_elem, "p", "End " + data[i].end_date))
 
             // SET POSITION
-            new_div.className = "parent row";
+            new_div.className = "parent row"
             if (i % 2 == 0) {
-                new_elem_text.className = "right_col text_div";
-                new_elem_image.className = "left_col";
+                new_elem_text.className = "right_col text_div"
+                new_elem_image.className = "left_col"
             } else {
-                new_elem_text.className = "left_col text_div";
-                new_elem_image.className = "right_col";
+                new_elem_text.className = "left_col text_div"
+                new_elem_image.className = "right_col"
             }
 
             // STRUCTURE
-            new_div.appendChild(new_elem_text);
-            new_div.appendChild(new_elem_image);
-            body.appendChild(new_div);
+            new_div.appendChild(new_elem_text)
+            new_div.appendChild(new_elem_image)
+            body.appendChild(new_div)
         }
-        render_scene(container_3D);
-        container_3D.size = container_3D.children.size
+
+        // BUILD SCENE
+        build_events()  
+
+        // BUILD SCENE
+        render_scene(container_3D)
     });
 }
 
@@ -172,9 +173,8 @@ function render_scene(container_3D) {
     renderer.setSize(window.innerWidth, window.innerHeight/2);
     container_3D.appendChild(renderer.domElement);
 
-    // Camera Controler
-    
-    const controls = new OrbitControls(camera, container_3D);
+    // Camera Controler    
+    //const controls = new OrbitControls(camera, container_3D);
 
     let simon
     const loader = new OBJLoader();
