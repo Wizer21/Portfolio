@@ -14,6 +14,7 @@ const data = [
         end_date: "02/02/2021",
         image: "../files/images/network.png",
         youtube: "null",
+        tech: ["python", "django", "javascript", "html", "css"]
     },
     {
         title: "Robot arm",
@@ -23,6 +24,7 @@ const data = [
         end_date: "02/02/2021",
         image: "../files/images/arm.jpg",
         youtube: "null",
+        tech: ["python", "qt", "raspberry"]
     },
     {
         title: "Tracking Robot",
@@ -32,6 +34,7 @@ const data = [
         end_date: "02/02/2021",
         image: "../files/images/robot_tracking.jpg",
         youtube: "null",
+        tech: ["python", "qt", "raspberry"]
     },
     {
         title: "Synchronized Canvas",
@@ -41,6 +44,7 @@ const data = [
         end_date: "02/02/2019",
         image: "../files/images/canvas.png",
         youtube: "null",
+        tech: ["cplusplus", "qt", "nodejs"]
     },
     {
         title: "Command Generator",
@@ -50,6 +54,7 @@ const data = [
         end_date: "02/02/2021",
         image: "../files/images/table_pres.jpg",
         youtube: "null",
+        tech: ["python", "qt"]
     },
     {
         title: "Image/Video Tracker",
@@ -59,6 +64,7 @@ const data = [
         end_date: "02/02/2021",
         image: "../files/images/green.png",
         youtube: "null",
+        tech: ["python", "qt"]
     },
     {
         title: "TicTacToe",
@@ -68,6 +74,7 @@ const data = [
         end_date: "02/02/2021",
         image: "../files/images/tictactoe.jpg",
         youtube: "null",
+        tech: ["python", "qt"]
     },
     {
         title: "Swich",
@@ -77,6 +84,7 @@ const data = [
         end_date: "02/02/2021",
         image: "../files/images/swich.jpg",
         youtube: "null",
+        tech: ["cplusplus", "qt", "maria"]
     },
     {
         title: "Simulation Revendeur",
@@ -86,8 +94,43 @@ const data = [
         end_date: "02/02/2021",
         image: "../files/images/Revendeur.jpg",
         youtube: "null",
+        tech: ["cplusplus", "qt"]
     },
 ];
+
+const icon_list = {
+    qt: {
+        url: "../files/images/icons/qt.svg"
+    },
+    cplusplus: {
+        url: "../files/images/icons/cplusplus.svg"
+    },
+    python: {
+        url: "../files/images/icons/python.svg"
+    },
+    nodejs: {
+        url: "../files/images/icons/node-dot-js.svg"
+    },
+    raspberry: {
+        url: "../files/images/icons/raspberrypi.svg"
+    },
+    django: {
+        url: "../files/images/icons/django.svg"
+    },
+    javascript: {
+        url: "../files/images/icons/javascript.svg"
+    },
+    html: {
+        url: "../files/images/icons/html5.svg"
+    },
+    css: {
+        url: "../files/images/icons/css3.svg"
+    },    
+    maria: {
+        url: "../files/images/icons/mariadb.svg"
+    },
+    
+}
 
 export function main() {
     document.addEventListener("DOMContentLoaded", () => {
@@ -125,6 +168,10 @@ export function main() {
             new_elem_text.appendChild(build_element_with_text(new_elem, "p", "Start " + data[i].start_date))
             new_elem_text.appendChild(build_element_with_text(new_elem, "p", "End " + data[i].end_date))
 
+            for (const icon in data[i].tech){
+                new_elem_text.appendChild(build_element_icon(new_elem, "img", icon_list[data[i].tech[icon]].url))
+            }
+
             // SET POSITION
             new_div.className = "parent row"
             if (i % 2 == 0) {
@@ -149,27 +196,53 @@ export function main() {
     });
 }
 
+// CREATE ANIMATIONS 
 function build_events(){
     // BUILD CURSOR 
-    console.log()
     const images = document.getElementsByTagName("img")
     const cursor_custom = document.getElementById("cursor_custom")
     const html = document.getElementsByTagName("html")
 
+    // CUSTOM CURSOR
     document.addEventListener("mousemove", event => {
         cursor_custom.style.top = `${event.pageY}px`
         cursor_custom.style.left = `${event.pageX}px`
     })
+
+    // IMAGE RESIZE
     for (const i of images){
         i.addEventListener("mouseenter", () => {
-            cursor_custom.style.display = "block"
-            console.log(i.dataset.angle)
-            i.style.transform = `scale(1.1) rotate(${ i.dataset.angle }deg)`
+            cursor_custom.style.display = "block" 
+            i.style.transform = `scale(1.1)`
         })
         i.addEventListener("mouseleave", () => {
             cursor_custom.style.display = "none"
             i.style.transform = `scale(1) rotate(${ i.dataset.angle }deg)`
         })        
+    }
+
+    // MOVING TEXT
+    const text = document.getElementsByClassName("text_div")
+
+    for (const t of text){
+        t.addEventListener("mouseenter", () => {
+            t.dataset.in = "1"
+            t.dataset.half_width = t.offsetWidth / 2
+            t.dataset.half_height = t.offsetHeight / 2
+        })
+        t.addEventListener("mouseleave", () => {
+            t.dataset.in = "0"
+            t.style.top = 0
+            t.style.left = 0
+        })
+        t.addEventListener("mousemove", event => {
+            if (t.dataset.in == "1"){
+
+                var offsets = t.getBoundingClientRect()
+                t.style.left = `${((event.pageX - (offsets.left + window.scrollX)) -  t.dataset.half_width) / 10}px`
+                t.style.top = `${((event.pageY - (offsets.top + window.scrollY)) -  t.dataset.half_height) / 10}px`
+            }            
+        })
     }
 }
 
@@ -179,101 +252,83 @@ function build_element_with_text(element, type, text) {
     return element;
 }
 
+function build_element_icon(element, type, text) {
+    element = document.createElement(type);
+    element.className = "icon"
+    element.src = text
+    return element;
+}
+
+// CREATE 3D SCENE
 function render_scene(container_3D) {
     // Scene
     const scene = new THREE.Scene();
 
+    // Light
+    const light = new THREE.HemisphereLight()
+    scene.add(light)
+
+
     // Camera
     const camera = new THREE.PerspectiveCamera(
         75,
-        window.innerWidth / (window.innerHeight/2),
+        window.innerWidth * 0.98 / (window.innerHeight/2),
         0.1,
         1000
-    );
-    camera.position.z = 5;
+    )
+    camera.position.set(-1, 0.8, 6)
 
     // Render
-    const renderer = new THREE.WebGLRenderer();
-    renderer.setSize(window.innerWidth, window.innerHeight/2);
-    container_3D.appendChild(renderer.domElement);
+    const renderer = new THREE.WebGLRenderer({ alpha: true })
+    renderer.setSize(window.innerWidth * 0.98, window.innerHeight/2)
+    renderer.setClearColor( 0x000000, 0 )
+    container_3D.appendChild(renderer.domElement)
 
     // Camera Controler    
     //const controls = new OrbitControls(camera, container_3D);
 
+    // Display Text
     let simon
     const loader = new OBJLoader();
-    //mtl.materials.Material.side = THREE.DoubleSide
     loader.load("../files/models/simon.obj", function (object) {
         object.scale.set(0.05, 0.05, 0.05)
-        scene.add(object);   
+        scene.add(object)
         simon = object
     })    
 
-    // Build default items
-    for (let i = 0; i < 40; i++ ){
-        create_sphere(scene)
-    }
+    // Display Photo
+    var photo = new THREE.MeshBasicMaterial({
+        map:THREE.ImageUtils.loadTexture('../files/models/photo.jpg')
+    })
+    photo.map.needsUpdate = true
+    var plane = new THREE.Mesh(new THREE.PlaneGeometry(3.5, 5),photo)
+    plane.overdraw = true
+
+    plane.position.set(-8, 1, 1)
+    plane.rotation.y += 0.1
+
+    scene.add(plane)
 
     // Animate
+    let plane_action = 0.002
     const animate = function () {
-        requestAnimationFrame(animate);
+        requestAnimationFrame(animate)
 
-        simon.rotation.y += 0.002;
+        simon.rotation.y += 0.002
+
+        plane.position.y += plane_action
         renderer.render(scene, camera);
 
-        // var number = dice(0, 100)
-        // if (number > 98){
-        //     create_sphere(scene)
-        // }
-        // else if (number < 2 && sphere_list.length > 3){
-        //     delete_sphere(scene, renderer)
-        // }
+        if (plane.position.y < 0.5){
+            plane_action = 0.002
+        }   
+        else if (plane.position.y > 1.5){            
+            plane_action = -0.002
+        }
     }
     animate()
 }
 
-function create_sphere(scene){
-    var position = [dice(-400, 400), dice(-400, 400), dice(-400, 400)]
-
-    // Create Sphere
-    var geometry = new THREE.SphereGeometry(2, 2, 2)
-    var material = new THREE.MeshBasicMaterial( {color: 0xffffff} )
-    var sphere = new THREE.Mesh(geometry, material)
-    
-    // Create Light
-    var light = new THREE.PointLight( 0xc4c4c4 )
-    light.intensity = 0.3
-
-    // Set position
-    light.position.set(position[0], position[1], position[2])
-    sphere.position.set(position[0], position[1], position[2])
-
-    // Store
-    sphere_list.push([sphere.id, light.id])
-
-    // Display
-    scene.add(light)
-    scene.add(sphere)
-
-}
-
-function delete_sphere(scene, renderer){
-    if (sphere_list.length > 0){
-
-        var sphere = scene.getObjectById(sphere_list[0][0])
-        var light = scene.getObjectById(sphere_list[0][1])
-
-        sphere.geometry.dispose()
-        sphere.material.dispose()
-        scene.remove(sphere)
-        scene.remove(light)
-        
-        sphere_list.shift()     
-
-        renderer.renderLists.dispose();
-    }
-}
-
 function dice(min, max){
-    return Math.random() * (max - min) + min;
+    return Math.random() * (max - min) + min
 }

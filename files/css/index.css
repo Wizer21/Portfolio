@@ -1,8 +1,10 @@
 /* MAIN STRUCTURE */
 html
 {
-    font-size: 5em;
+    font-size: 2em;
     font-family: 'Roboto', sans-serif;
+    color: white;
+    background-image: linear-gradient( #2b2b2b,#5c5c5c);
 }
 body
 {
@@ -25,8 +27,8 @@ body
     position: absolute;
     border-radius: 50%;
     z-index: 2;
-    /* transition-duration: 300ms; */
-    /* transition-timing-function: ease-out; */
+    display: none;
+    
     animation: cursorAnim .5s infinite alternate;
 }
 
@@ -39,15 +41,14 @@ body
     }
 }
 
-
 /* BUILD */
 .parent
 {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
 
-    padding-top: 10%;
-    padding-bottom: 10%;
+    padding-top: 5%;
+    padding-bottom: 5%;
     overflow: hidden;
 }
 .left_col
@@ -64,6 +65,13 @@ body
 .text_div
 {
     margin: 10%;
+    padding: 5%;
+    border: 1px solid rgb(253, 253, 253);
+    position: relative;
+
+    transition-property: transform;
+    transition-duration: 500ms;
+    transition-timing-function: ease;
 }
 
 img
@@ -78,3 +86,11 @@ img
     transition-property: transform;
     transition-duration: 500ms;
 }
+
+.icon
+{
+    height: 2em;
+    width: 2em;
+    margin: 20px;
+}
+
