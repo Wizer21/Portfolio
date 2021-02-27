@@ -1,8 +1,7 @@
 import * as THREE from "../files/threejs/three.module.js"
-import { OBJLoader } from "../files/threejs/OBJLoader.js"
 import { OrbitControls } from "../files/threejs/OrbitControls.js"
-import { MTLLoader } from "../files/threejs/MTLLoader.js"
 import { GLTFLoader } from '../files/threejs/GLTFLoader.js'
+//import { Matter } from '../files/matterjs/matter.min.js'
 
 var sphere_list = []
 
@@ -129,10 +128,8 @@ const icon_list = {
     },    
     maria: {
         url: "../files/images/icons/mariadb.svg"
-    },
-    
+    }    
 }
-
 export function main() {
     document.addEventListener("DOMContentLoaded", () => {
         // BUILD INTERFACE 
@@ -144,6 +141,20 @@ export function main() {
         let new_elem_image;
         let new_elem;
         for (let i = 0; i < data.length; i++) {
+
+            // CREATE ROCK SCENE 
+            if (i == 4){
+                new_div = document.createElement("div")
+                new_div.id = "rock_scene"
+                
+                new_elem_image = document.createElement("img")
+                new_elem_image.src = "../files/images/dog.gif"
+                new_elem_image.id = "dogo"
+                
+                new_div.appendChild(new_elem_image)
+                body.appendChild(new_div)
+            }
+
             // BUILD DIVS
             new_div = document.createElement("div")
             new_elem_text = document.createElement("div")
@@ -193,7 +204,8 @@ export function main() {
         build_events()  
 
         // BUILD SCENE
-        render_scene(header)
+        render_3D_scene(header)
+        render_2d_scene()
     });
 }
 
@@ -261,14 +273,14 @@ function build_element_icon(element, type, text) {
 }
 
 // CREATE 3D SCENE
-function render_scene(container_3D) {
+function render_3D_scene(container_3D) {
     // Scene
     const scene = new THREE.Scene();
 
     // Light
-    const light = new THREE.HemisphereLight()
-    scene.add(light)
-
+    create_point_light(scene, [-10, 5, 0], "#ffffff", 1.5)
+    create_point_light(scene, [10, 10, 10], "#ffffff", 0.5)
+    create_point_light(scene, [10, -5, -10], "#ffffff", 1)
 
     // Camera
     const camera = new THREE.PerspectiveCamera(
@@ -277,47 +289,126 @@ function render_scene(container_3D) {
         0.1,
         1000
     )
-    camera.position.set(-1, 0.8, 6)
 
     // Render
     const renderer = new THREE.WebGLRenderer({ alpha: true })
-    renderer.setSize(window.innerWidth * 0.98, window.innerHeight/2)
+    renderer.setSize(window.innerWidth * 0.99, window.innerHeight/2 * 0.99)
     renderer.setClearColor( 0x000000, 0 )
+    renderer.domElement.id = "canvas_3d"
     container_3D.appendChild(renderer.domElement)
 
     // Camera Controler    
-    const controls = new OrbitControls(camera, container_3D);   
-
+    //const controls = new OrbitControls(camera, container_3D);   
 
     let monstera
     const loader = new GLTFLoader();
     loader.load( '../files/models/monstera.glb', function ( gltf ) {
-        scene.add( gltf.scene );
+        monstera = scene.add( gltf.scene );
+        monstera.rotation.y += 0.8
     });    
-    // const mlt_loader = new MTLLoader()
-    // const obj_loader = new OBJLoader()
-    // mlt_loader.load("../files/models/Monstera Deliciosa Plant/monstera.mtl", function(material){
-    //     material.preload()
-    //     obj_loader.setMaterials(material)
 
-    //     obj_loader.load("../files/models/Monstera Deliciosa Plant/monstera.obj", function(object){
-    //         object.scale.set(0.5, 0.5, 0.5)
-    //         scene.add(object)
-    //         monstera = object
-    //     })
-    // })
+    camera.position.set(-2.5, 4.5, 1)
 
     // Animate
 
     const animate = function () {
         requestAnimationFrame(animate)
-        //monstera.rotation.y += 0.002
+        if (monstera){
+            monstera.rotation.y += 0.0003
+        }
 
         renderer.render(scene, camera);
     }
     animate()
 }
 
+function create_point_light(scene, position, color, power){
+    let light = new THREE.PointLight()
+    light.position.set(position[0], position[1], position[2])
+    light.intensity = power
+    light.color.set(color)
+    scene.add(light)
+
+    return light
+}
+
 function dice(min, max){
     return Math.random() * (max - min) + min
+}
+
+function render_2d_scene(){
+    // module aliases
+    var Engine = Matter.Engine,
+    Render = Matter.Render,
+    World = Matter.World,
+    Bodies = Matter.Bodies;
+
+    // create an engine
+    var engine = Engine.create();
+
+    let container = document.getElementById("rock_scene")  
+    
+    // create a renderer
+    var render = Render.create({
+    element: container,
+    engine: engine,
+    options: {
+        wireframes: false,
+        height: 600,
+        width: document.body.offsetWidth,
+        background: 'transparent',
+    }
+    });
+
+    // create two boxes and a ground
+    let radius = 40
+    let sides = 4
+    var rock1 = Bodies.polygon(200, 220, sides, radius)
+    var rock2 = Bodies.polygon(200, 500, sides, radius)
+    var rock3 = Bodies.polygon(200, 300, sides, radius)
+    var rock4 = Bodies.polygon(300, 200, sides, radius)
+    var rock5 = Bodies.polygon(300, 300, sides, radius)
+    var rock6 = Bodies.polygon(300, 300, sides, radius)
+    var rock7 = Bodies.polygon(300, 500, sides, radius)
+    var rock8 = Bodies.polygon(400, 200, sides, radius)
+    var rock9 = Bodies.polygon(400, 200, sides, radius)
+
+    rock1.render.sprite.texture = "../files/images/rocks/rock1.png"
+    rock2.render.sprite.texture = "../files/images/rocks/rock2.png"
+    rock3.render.sprite.texture = "../files/images/rocks/rock3.png"
+    rock4.render.sprite.texture = "../files/images/rocks/rock4.png"
+    rock5.render.sprite.texture = "../files/images/rocks/rock5.png"
+    rock6.render.sprite.texture = "../files/images/rocks/rock6.png"
+    rock7.render.sprite.texture = "../files/images/rocks/rock7.png"
+    rock8.render.sprite.texture = "../files/images/rocks/rock8.png"
+    rock9.render.sprite.texture = "../files/images/rocks/rock9.png"
+
+    var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true })
+
+
+    // mouse
+    let mouse = Matter.Mouse.create(render.canvas)
+    let mouse_Constraint = Matter.MouseConstraint.create(engine, {
+        mouse: mouse,
+        constraint: {
+            render: { visible: false }
+        }
+    })
+    render.mouse = mouse
+
+    // Enable scroll page over the scene
+    mouse.element.removeEventListener("mousewheel", mouse_Constraint.mouse.mousewheel);
+    mouse.element.removeEventListener("DOMMouseScroll", mouse_Constraint.mouse.mousewheel);
+
+    // Add bodies to the world
+    World.add(engine.world, [rock1, rock2, rock3, rock4, rock5, rock6, rock7, rock8, rock9, ground, mouse_Constraint])
+
+    // run the engine
+    Engine.run(engine)
+    // run the renderer
+    Render.run(render)
+}
+
+function new_rock(){
+
 }

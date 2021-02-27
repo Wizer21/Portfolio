@@ -1,10 +1,15 @@
+@font-face {
+font-family: Caveat;
+src: url(../font/Caveat-Regular.ttf);
+}
+
 /* MAIN STRUCTURE */
 html
 {
     font-size: 2em;
     font-family: 'Roboto', sans-serif;
     color: rgb(34, 34, 34);
-    background-image: linear-gradient( #2b2b2b,#5c5c5c);
+    background-color: white;
 }
 body
 {
@@ -16,7 +21,7 @@ body
     display: grid;
     grid-template-columns: repeat(1, 1fr);
 
-    margin: 0;
+    margin: 0px;
 }
 /* Custom Cursor */
 #cursor_custom
@@ -66,10 +71,9 @@ body
 {
     margin: 10%;
     padding: 5%;
-    border: 0.2em solid rgb(239, 211, 255);
+    border: 0.1em solid rgb(39, 39, 39);
     position: relative;
     background-color: white;
-    border-radius: 1.5em;
 
     transition-property: transform;
     transition-duration: 500ms;
@@ -78,7 +82,7 @@ body
 
 img
 {
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
     width: 100%;
     height: 100%;
@@ -103,20 +107,95 @@ h1
 
 .round_container
 {
-    width: 2em;
-    height: 2em;
+    width: 2.4em;
+    height: 2.4em;
     border-radius: 50%;
-    background-color: blue;
     overflow: hidden;
+
+    transition-property: transform;
+    transition-duration: 500ms;  
+    animation-timing-function: ease-in-out;
+    
+    animation-fill-mode: backwards;
+    animation-duration: 500ms;
+}
+.round_container:hover
+{
+    transform: scale(1.3);
+}
+.round_icon
+{
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+
 }
 
 .title
 {
     margin-bottom: 0px;
+    font-size: 3em;
 }
 
 #header
 {
-    padding: 2em;
     color: white;
+
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    background-color: #2b2b2b;
+}
+
+#header_text
+{
+    grid-row: 1;
+    grid-column: 1;
+    padding: 2em;
+    z-index: 1;
+}
+#canvas_3d
+{
+    grid-row: 1;
+    grid-column: 1;
+    margin-left: auto;
+    margin-top: auto;
+    margin-right: 0;
+    margin-bottom: 0;
+}
+
+.inline
+{
+    float: left;
+}
+#pseudo
+{
+    font-size: 2em;
+    margin: 0em;
+    padding-left: 0.5em;
+    font-family: 'Caveat';
+}
+
+/* ROCK SCENE */
+#rock_scene
+{
+    display: grid;
+    grid-template-rows: 1, 1fr; 
+}
+#dogo
+{
+    width: 2em;   
+    grid-row: 1;    
+    grid-column: 1;
+    z-index: 0;
+
+    position: relative;
+    left: 8em;
+    top: 7.7em;
+}
+#rock_scene canvas
+{   
+    grid-row: 1; 
+    grid-column: 1;
+    z-index: 1;
 }
