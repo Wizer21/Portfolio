@@ -3,7 +3,7 @@ html
 {
     font-size: 2em;
     font-family: 'Roboto', sans-serif;
-    color: white;
+    color: rgb(34, 34, 34);
     background-image: linear-gradient( #2b2b2b,#5c5c5c);
 }
 body
@@ -66,8 +66,10 @@ body
 {
     margin: 10%;
     padding: 5%;
-    border: 1px solid rgb(253, 253, 253);
+    border: 0.2em solid rgb(239, 211, 255);
     position: relative;
+    background-color: white;
+    border-radius: 1.5em;
 
     transition-property: transform;
     transition-duration: 500ms;
@@ -94,3 +96,7 @@ img
     margin: 20px;
 }
 
+h1
+{
+    margin-top: 0px;
+}
