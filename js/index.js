@@ -1,7 +1,8 @@
-import * as THREE from "../files/threejs/three.module.js";
-import { OBJLoader } from "../files/threejs/OBJLoader.js";
-import { OrbitControls } from "../files/threejs/OrbitControls.js";
-import { MTLLoader } from "../files/threejs/MTLLoader.js";
+import * as THREE from "../files/threejs/three.module.js"
+import { OBJLoader } from "../files/threejs/OBJLoader.js"
+import { OrbitControls } from "../files/threejs/OrbitControls.js"
+import { MTLLoader } from "../files/threejs/MTLLoader.js"
+import { GLTFLoader } from '../files/threejs/GLTFLoader.js'
 
 var sphere_list = []
 
@@ -136,7 +137,7 @@ export function main() {
     document.addEventListener("DOMContentLoaded", () => {
         // BUILD INTERFACE 
         let body = document.getElementById("body_container");
-        let container_3D = document.getElementById("container_3d");
+        let header = document.getElementById("header");
 
         let new_div;
         let new_elem_text;
@@ -192,7 +193,7 @@ export function main() {
         build_events()  
 
         // BUILD SCENE
-        render_scene(container_3D)
+        render_scene(header)
     });
 }
 
@@ -285,46 +286,34 @@ function render_scene(container_3D) {
     container_3D.appendChild(renderer.domElement)
 
     // Camera Controler    
-    //const controls = new OrbitControls(camera, container_3D);
+    const controls = new OrbitControls(camera, container_3D);   
 
-    // Display Text
-    let simon
-    const loader = new OBJLoader();
-    loader.load("../files/models/simon.obj", function (object) {
-        object.scale.set(0.05, 0.05, 0.05)
-        scene.add(object)
-        simon = object
-    })    
 
-    // Display Photo
-    var photo = new THREE.MeshBasicMaterial({
-        map:THREE.ImageUtils.loadTexture('../files/models/photo.jpg')
-    })
-    photo.map.needsUpdate = true
-    var plane = new THREE.Mesh(new THREE.PlaneGeometry(3.5, 5),photo)
-    plane.overdraw = true
+    let monstera
+    const loader = new GLTFLoader();
+    loader.load( '../files/models/monstera.glb', function ( gltf ) {
+        scene.add( gltf.scene );
+    });    
+    // const mlt_loader = new MTLLoader()
+    // const obj_loader = new OBJLoader()
+    // mlt_loader.load("../files/models/Monstera Deliciosa Plant/monstera.mtl", function(material){
+    //     material.preload()
+    //     obj_loader.setMaterials(material)
 
-    plane.position.set(-8, 1, 1)
-    plane.rotation.y += 0.1
-
-    scene.add(plane)
+    //     obj_loader.load("../files/models/Monstera Deliciosa Plant/monstera.obj", function(object){
+    //         object.scale.set(0.5, 0.5, 0.5)
+    //         scene.add(object)
+    //         monstera = object
+    //     })
+    // })
 
     // Animate
-    let plane_action = 0.002
+
     const animate = function () {
         requestAnimationFrame(animate)
+        //monstera.rotation.y += 0.002
 
-        simon.rotation.y += 0.002
-
-        plane.position.y += plane_action
         renderer.render(scene, camera);
-
-        if (plane.position.y < 0.5){
-            plane_action = 0.002
-        }   
-        else if (plane.position.y > 1.5){            
-            plane_action = -0.002
-        }
     }
     animate()
 }
