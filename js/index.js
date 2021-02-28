@@ -1,26 +1,35 @@
 import * as THREE from "../files/threejs/three.module.js"
 import { OrbitControls } from "../files/threejs/OrbitControls.js"
 import { GLTFLoader } from '../files/threejs/GLTFLoader.js'
-//import { Matter } from '../files/matterjs/matter.min.js'
 
 let renderer
 let render_2d
-const data = [    
+const data = [   
+    {
+        title: "Portfolio",
+        description: "Learning Django throught this project, imitating a social network.",
+        git_link: "https://github.com/Wizer21/Portfolio",
+        start_date: "24/02/2021",
+        end_date: "28/02/2021",
+        image: "../files/images/portfolio.jpg",
+        youtube: "null",
+        tech: ["javascript", "html", "css", "three", "matter"]
+    }, 
     {
         title: "Swich Network",
-        description: "Learning project imitating a social network. This project was realized using Python and Django",
+        description: "Learning Django throught this project, imitating a social network.",
         git_link: "https://github.com/Wizer21/Swich_network",
-        start_date: "20/02/2020",
+        start_date: "20/02/2021",
         end_date: "22/02/2021",
-        image: "../files/images/network.png",
+        image: "../files/images/network.jpg",
         youtube: "null",
         tech: ["python", "django", "javascript", "html", "css"]
     },
     {
         title: "Robot arm",
-        description: "This project is a 6-axis arm, controlled on a Raspberry Pi. The arm can be managed from an Xbox controller. 🎮 By using the calculation method below, I can create vertical or horizontal movements. If, for example, I want to claw to be lowered, I set this new position and calculate from this one, witch should be the new motors postions.",
+        description: "This project is a 6-axis arm, managed on a Raspberry Pi and controlled from an Xbox controller.",
         git_link: "https://github.com/Wizer21/6Servo_Robot_Arm",
-        start_date: "01/02/2020",
+        start_date: "01/02/2021",
         end_date: "19/02/2021",
         image: "../files/images/arm.jpg",
         youtube: "null",
@@ -42,13 +51,13 @@ const data = [
         git_link: "https://github.com/Wizer21/Connected_canvas",
         start_date: "06/01/2021",
         end_date: "16/01/2021",
-        image: "../files/images/canvas.png",
+        image: "../files/images/canvas.jpg",
         youtube: "null",
         tech: ["cplusplus", "qt", "nodejs"]
     },
     {
         title: "Command Generator",
-        description: "'Command Generator' is an application that generates order mail in a few clicks.",
+        description: "'Command Generator' is an application that generates order mail, based on copied data.",
         git_link: "https://github.com/Wizer21/OrderGenerator",
         start_date: "28/12/2020",
         end_date: "05/01/2021",
@@ -58,17 +67,17 @@ const data = [
     },
     {
         title: "Image/Video Tracker",
-        description: "This program allows you to find complex shapes from an image, depending on their color, by clicking on the image, the algorithm will get the pixel table of our image, the position of pixel clicked and its color",
+        description: "This program is able to find complex shapes from an image, depending on their color. By clicking on the video, the algorithm will get the pixel clicked and start tracking it. ",
         git_link: "https://github.com/Wizer21/Image_Tracker",
         start_date: "11/12/2020",
         end_date: "28/12/2020",
-        image: "../files/images/green.png",
+        image: "../files/images/green.jpg",
         youtube: "null",
         tech: ["python", "qt"]
     },
     {
         title: "TicTacToe",
-        description: "This TicTacToe allows you to play against the program that analyzes the board to find the best way to deafeat you.",
+        description: "The TicTacToe game that allows you to play against the program, it analyzes the board to find the best way to deafeat you.",
         git_link: "https://github.com/Wizer21/TicTacToe",
         start_date: "08/12/2020",
         end_date: "11/12/2020",
@@ -78,7 +87,7 @@ const data = [
     },
     {
         title: "Swich",
-        description: "This project was mainly made to showcase my skills and keep an history of my progression. The developpement started on 2nd, november 2020. This project was only made through C++ with the Qt library.",
+        description: "This project was mainly made to showcase my skills and keep an history of my progression.",
         git_link: "https://github.com/Wizer21/Swich",
         start_date: "02/11/2020",
         end_date: "30/11/2020",
@@ -88,7 +97,7 @@ const data = [
     },
     {
         title: "Simulation Revendeur",
-        description: "First Qt Application",
+        description: "Learning and discovery of Qt",
         git_link: "https://github.com/Wizer21/SimulationRevendeur",
         start_date: "12/10/2020",
         end_date: "26/10/2020",
@@ -128,7 +137,14 @@ const icon_list = {
     },    
     maria: {
         url: "../files/images/icons/mariadb.svg"
-    }    
+    },
+    three: {
+        url: "../files/images/icons/three-dot-js.svg"
+    },
+    matter: {
+        url: "../files/images/icons/matter-js.svg"
+    },
+
 }
 
 const rock_list = [
@@ -179,7 +195,9 @@ export function main() {
             new_elem_text.appendChild(build_element_with_text(new_elem, "p", data[i].start_date + " -> " + data[i].end_date))
 
             for (const icon in data[i].tech){
-                new_elem_text.appendChild(build_element_icon(new_elem, "img", icon_list[data[i].tech[icon]].url))
+                let elem = build_element_icon(new_elem, "img", icon_list[data[i].tech[icon]].url)
+                elem.dataset.name = data[i].tech[icon]
+                new_elem_text.appendChild(elem)
             }
 
             // SET POSITION
@@ -221,6 +239,7 @@ export function main() {
             renderer.setSize(document.getElementById("header").offsetWidth, document.getElementById("header").offsetHeight * 1.01)
             window.scrollTo(0, 0)
 
+            document.getElementById("page_entry").children[0].style.opacity = "0"
             document.getElementById("page_entry").className = "open"
         }, 1000)
     });
@@ -234,14 +253,7 @@ function build_events(){
     const cursor_git = document.querySelector(".git_cursor")
 
     document.addEventListener("mousemove", event => {
-        cursor_custom.style.top = `${event.pageY - 5}px`
-        cursor_custom.style.left = `${event.pageX - 5}px`
-
-        cursor_expand.style.top = `${event.pageY - 2.5}px`
-        cursor_expand.style.left = `${event.pageX - 2.5}px`
-
-        cursor_git.style.top = `${event.pageY - 20}px`
-        cursor_git.style.left = `${event.pageX - 20}px`
+        track_mouse(event, cursor_custom, cursor_expand, cursor_git)
     })
 
     const text_surface = document.getElementsByClassName("text_div")
@@ -265,12 +277,21 @@ function build_events(){
         })
     }
 
-    // ICON SLIDE ON SHOW
+    // ICON SLIDE ON HOVER
+    const displayer = document.getElementById("icon_text")
     const icons = document.getElementsByClassName("icon")
     for (const a of icons){
-        a.addEventListener("show", event => {
-            console.log("show")
-            a.style.transform = "scale(5)"
+        a.addEventListener("mouseenter", event => {            
+            const rect = a.getBoundingClientRect()            
+            displayer.style.top = `${rect.top + window.scrollY}px`
+            displayer.style.left = `${rect.left + window.scrollX}px`
+
+            displayer.children[0].textContent = a.dataset.name
+            displayer.children[0].classList.add("slide")
+            
+        })
+        a.addEventListener("mouseleave", () => {
+            displayer.children[0].classList.remove("slide")
         })
     }
 
@@ -286,7 +307,6 @@ function build_events(){
             cursor_git.classList.add("git_exit")
         })
     }
-
 
     // IMAGE RESIZE
     for (const i of images){
@@ -304,6 +324,23 @@ function build_events(){
         render_2d.canvas.width = document.body.offsetWidth
         render_2d.canvas.height = window.innerHeight/2
     })
+
+    document.addEventListener("wheel", event => {
+        track_mouse(event, cursor_custom, cursor_expand, cursor_git)
+        
+        displayer.children[0].classList.remove("slide")
+    })
+}
+
+function track_mouse(event, cursor_custom, cursor_expand, cursor_git){    
+    cursor_custom.style.top = `${event.pageY - 5}px`
+    cursor_custom.style.left = `${event.pageX - 5}px`
+
+    cursor_expand.style.top = `${event.pageY - 2.5}px`
+    cursor_expand.style.left = `${event.pageX - 2.5}px`
+
+    cursor_git.style.top = `${event.pageY - 20}px`
+    cursor_git.style.left = `${event.pageX - 20}px`
 }
 
 function build_element_with_text(element, type, text) {
@@ -413,7 +450,9 @@ function render_2d_scene(){
     for (let i = 0; i < 50; i++){
         create_rock(World, engine, Bodies)
     }
-
+    for (let i = 0; i < window.innerWidth/10; i++){
+        create_leaf(World, engine, Bodies)
+    }
 
 
     // mouse
@@ -443,4 +482,10 @@ function create_rock(World, engine, Bodies){
     var rock = Bodies.polygon(dice(100, 500), dice(200, 400), 4, 40)
     rock.render.sprite.texture = rock_list[Math.round(dice(0, 8))]
     World.add(engine.world, [rock])
+}
+
+function create_leaf(World, engine, Bodies){    
+    var leaf = Bodies.rectangle(dice(0, window.innerWidth), 0, 25, 8)
+    leaf.render.sprite.texture = "../files/images/rocks/leaf.png"
+    World.add(engine.world, [leaf])
 }
