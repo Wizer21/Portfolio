@@ -4,13 +4,14 @@ import { GLTFLoader } from '../files/threejs/GLTFLoader.js'
 //import { Matter } from '../files/matterjs/matter.min.js'
 
 let renderer
+let render_2d
 const data = [    
     {
         title: "Swich Network",
         description: "Learning project imitating a social network. This project was realized using Python and Django",
         git_link: "https://github.com/Wizer21/Swich_network",
-        start_date: "01/01/2020",
-        end_date: "02/02/2021",
+        start_date: "20/02/2020",
+        end_date: "22/02/2021",
         image: "../files/images/network.png",
         youtube: "null",
         tech: ["python", "django", "javascript", "html", "css"]
@@ -19,8 +20,8 @@ const data = [
         title: "Robot arm",
         description: "This project is a 6-axis arm, controlled on a Raspberry Pi. The arm can be managed from an Xbox controller. 🎮 By using the calculation method below, I can create vertical or horizontal movements. If, for example, I want to claw to be lowered, I set this new position and calculate from this one, witch should be the new motors postions.",
         git_link: "https://github.com/Wizer21/6Servo_Robot_Arm",
-        start_date: "01/01/2020",
-        end_date: "02/02/2021",
+        start_date: "01/02/2020",
+        end_date: "19/02/2021",
         image: "../files/images/arm.jpg",
         youtube: "null",
         tech: ["python", "qt", "raspberry"]
@@ -29,8 +30,8 @@ const data = [
         title: "Tracking Robot",
         description: "This project is realized on Raspberry Pi 4. This robot is equipped with 2 DC motor that allow it to move around. Two servomotor control the camera which can in this way follow objects. Both DC and servomotors can be controlled from the Qt interface or from an Xbox controller.",
         git_link: "https://github.com/Wizer21/TrackerRobot",
-        start_date: "01/01/2020",
-        end_date: "02/02/2021",
+        start_date: "17/01/2021",
+        end_date: "01/02/2021",
         image: "../files/images/robot_tracking.jpg",
         youtube: "null",
         tech: ["python", "qt", "raspberry"]
@@ -39,8 +40,8 @@ const data = [
         title: "Synchronized Canvas",
         description: "This project is a simple scribble application. Users can create rooms that will synchronize their canvas with the users present in the same room.",
         git_link: "https://github.com/Wizer21/Connected_canvas",
-        start_date: "01/01/2045",
-        end_date: "02/02/2019",
+        start_date: "06/01/2021",
+        end_date: "16/01/2021",
         image: "../files/images/canvas.png",
         youtube: "null",
         tech: ["cplusplus", "qt", "nodejs"]
@@ -49,8 +50,8 @@ const data = [
         title: "Command Generator",
         description: "'Command Generator' is an application that generates order mail in a few clicks.",
         git_link: "https://github.com/Wizer21/OrderGenerator",
-        start_date: "01/01/2020",
-        end_date: "02/02/2021",
+        start_date: "28/12/2020",
+        end_date: "05/01/2021",
         image: "../files/images/table_pres.jpg",
         youtube: "null",
         tech: ["python", "qt"]
@@ -59,8 +60,8 @@ const data = [
         title: "Image/Video Tracker",
         description: "This program allows you to find complex shapes from an image, depending on their color, by clicking on the image, the algorithm will get the pixel table of our image, the position of pixel clicked and its color",
         git_link: "https://github.com/Wizer21/Image_Tracker",
-        start_date: "01/01/2020",
-        end_date: "02/02/2021",
+        start_date: "11/12/2020",
+        end_date: "28/12/2020",
         image: "../files/images/green.png",
         youtube: "null",
         tech: ["python", "qt"]
@@ -69,8 +70,8 @@ const data = [
         title: "TicTacToe",
         description: "This TicTacToe allows you to play against the program that analyzes the board to find the best way to deafeat you.",
         git_link: "https://github.com/Wizer21/TicTacToe",
-        start_date: "01/01/2020",
-        end_date: "02/02/2021",
+        start_date: "08/12/2020",
+        end_date: "11/12/2020",
         image: "../files/images/tictactoe.jpg",
         youtube: "null",
         tech: ["python", "qt"]
@@ -79,8 +80,8 @@ const data = [
         title: "Swich",
         description: "This project was mainly made to showcase my skills and keep an history of my progression. The developpement started on 2nd, november 2020. This project was only made through C++ with the Qt library.",
         git_link: "https://github.com/Wizer21/Swich",
-        start_date: "01/01/2020",
-        end_date: "02/02/2021",
+        start_date: "02/11/2020",
+        end_date: "30/11/2020",
         image: "../files/images/swich.jpg",
         youtube: "null",
         tech: ["cplusplus", "qt", "maria"]
@@ -89,8 +90,8 @@ const data = [
         title: "Simulation Revendeur",
         description: "First Qt Application",
         git_link: "https://github.com/Wizer21/SimulationRevendeur",
-        start_date: "01/01/2020",
-        end_date: "02/02/2021",
+        start_date: "12/10/2020",
+        end_date: "26/10/2020",
         image: "../files/images/Revendeur.jpg",
         youtube: "null",
         tech: ["cplusplus", "qt"]
@@ -175,8 +176,7 @@ export function main() {
             // BUILD DESCRIPTION
             new_elem_text.appendChild(build_element_with_text(new_elem, "h1", data[i].title))
             new_elem_text.appendChild(build_element_with_text(new_elem, "p", data[i].description))
-            new_elem_text.appendChild(build_element_with_text(new_elem, "p", "Start " + data[i].start_date))
-            new_elem_text.appendChild(build_element_with_text(new_elem, "p", "End " + data[i].end_date))
+            new_elem_text.appendChild(build_element_with_text(new_elem, "p", data[i].start_date + " -> " + data[i].end_date))
 
             for (const icon in data[i].tech){
                 new_elem_text.appendChild(build_element_icon(new_elem, "img", icon_list[data[i].tech[icon]].url))
@@ -218,7 +218,7 @@ export function main() {
 
         setTimeout(() => {
             document.getElementById("mainLayout").style.display = "block"
-            renderer.setSize(document.getElementById("header").offsetWidth, document.getElementById("header").offsetHeight)
+            renderer.setSize(document.getElementById("header").offsetWidth, document.getElementById("header").offsetHeight * 1.01)
             window.scrollTo(0, 0)
 
             document.getElementById("page_entry").className = "open"
@@ -228,18 +228,11 @@ export function main() {
 
 // CREATE ANIMATIONS 
 function build_events(){
-    // BUILD CURSOR 
-    const images = document.getElementsByClassName("image_holder")
+    // CUSTOM CURSOR
     const cursor_custom = document.querySelector(".cursor_custom")
     const cursor_expand = document.querySelector(".cursor_expand")
     const cursor_git = document.querySelector(".git_cursor")
 
-    const html = document.getElementsByTagName("html")
-    const text_surface = document.getElementsByClassName("text_div")
-    const icons = document.getElementsByClassName("icon")
-
-
-    // CUSTOM CURSOR
     document.addEventListener("mousemove", event => {
         cursor_custom.style.top = `${event.pageY - 5}px`
         cursor_custom.style.left = `${event.pageX - 5}px`
@@ -251,27 +244,7 @@ function build_events(){
         cursor_git.style.left = `${event.pageX - 20}px`
     })
 
-    // ICON SLIDE ON SHOW
-    for (const a of icons){
-        a.addEventListener("show", event => {
-            console.log("show")
-            a.style.transform = "scale(5)"
-        })
-    }
-
-    // GIT ICON
-    for (const e of images){
-        e.addEventListener("mouseenter", () => {
-            cursor_git.classList.remove("git_exit")
-            cursor_git.classList.add("git_enter")
-        })
-        e.addEventListener("mouseleave", () => {
-            cursor_git.classList.remove("git_enter")
-            cursor_git.classList.add("git_exit")
-        })
-    }
-
-
+    const text_surface = document.getElementsByClassName("text_div")
     for (const i of text_surface){
         i.addEventListener("mouseenter", () => {
             cursor_custom.style.display = "block"
@@ -292,6 +265,29 @@ function build_events(){
         })
     }
 
+    // ICON SLIDE ON SHOW
+    const icons = document.getElementsByClassName("icon")
+    for (const a of icons){
+        a.addEventListener("show", event => {
+            console.log("show")
+            a.style.transform = "scale(5)"
+        })
+    }
+
+    // GIT ICON
+    const images = document.getElementsByClassName("image_holder")
+    for (const e of images){
+        e.addEventListener("mouseenter", () => {
+            cursor_git.classList.remove("git_exit")
+            cursor_git.classList.add("git_enter")
+        })
+        e.addEventListener("mouseleave", () => {
+            cursor_git.classList.remove("git_enter")
+            cursor_git.classList.add("git_exit")
+        })
+    }
+
+
     // IMAGE RESIZE
     for (const i of images){
         i.addEventListener("mouseenter", () => {
@@ -301,6 +297,13 @@ function build_events(){
             i.style.transform = `scale(1) rotate(${ i.dataset.angle }deg)`
         })        
     }
+
+    window.addEventListener("resize", () => {        
+        renderer.setSize(document.getElementById("header").offsetWidth, document.getElementById("header").offsetHeight)
+
+        render_2d.canvas.width = document.body.offsetWidth
+        render_2d.canvas.height = window.innerHeight/2
+    })
 }
 
 function build_element_with_text(element, type, text) {
@@ -384,7 +387,8 @@ function render_2d_scene(){
     var Engine = Matter.Engine,
     Render = Matter.Render,
     World = Matter.World,
-    Bodies = Matter.Bodies;
+    Bodies = Matter.Bodies,
+    Constraint = Matter.Constraint;
 
     // create an engine
     var engine = Engine.create();
@@ -392,7 +396,7 @@ function render_2d_scene(){
     let container = document.getElementById("rock_scene")  
     
     // create a renderer
-    var render = Render.create({
+    render_2d = Render.create({
     element: container,
     engine: engine,
     options: {
@@ -403,22 +407,24 @@ function render_2d_scene(){
     }
     });
 
+    let ground = Bodies.rectangle(window.innerWidth/2, window.innerHeight/2 + 20, window.innerWidth, 20, { isStatic: true })
+        
     // create two boxes and a ground
     for (let i = 0; i < 50; i++){
         create_rock(World, engine, Bodies)
     }
 
-    let ground = Bodies.rectangle(window.innerWidth/2, window.innerHeight/2 + 20, window.innerWidth, 20, { isStatic: true })
+
 
     // mouse
-    let mouse = Matter.Mouse.create(render.canvas)
+    let mouse = Matter.Mouse.create(render_2d.canvas)
     let mouse_Constraint = Matter.MouseConstraint.create(engine, {
         mouse: mouse,
         constraint: {
-            render: { visible: false }
+            render_2d: { visible: false }
         }
     })
-    render.mouse = mouse
+    render_2d.mouse = mouse
 
     // Enable scroll page over the scene
     mouse.element.removeEventListener("mousewheel", mouse_Constraint.mouse.mousewheel)
@@ -430,7 +436,7 @@ function render_2d_scene(){
     // run the engine
     Engine.run(engine)
     // run the renderer
-    Render.run(render)
+    Render.run(render_2d)
 }
 
 function create_rock(World, engine, Bodies){
