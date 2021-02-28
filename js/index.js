@@ -53,7 +53,7 @@ const data = [
         end_date: "16/01/2021",
         image: "../files/images/canvas.jpg",
         youtube: "null",
-        tech: ["cplusplus", "qt", "nodejs"]
+        tech: ["c++", "qt", "nodejs"]
     },
     {
         title: "Command Generator",
@@ -93,17 +93,17 @@ const data = [
         end_date: "30/11/2020",
         image: "../files/images/swich.jpg",
         youtube: "null",
-        tech: ["cplusplus", "qt", "maria"]
+        tech: ["c++", "qt", "mariadb"]
     },
     {
         title: "Simulation Revendeur",
-        description: "Learning and discovery of Qt",
+        description: "Learning and discovery of Qt.",
         git_link: "https://github.com/Wizer21/SimulationRevendeur",
         start_date: "12/10/2020",
         end_date: "26/10/2020",
         image: "../files/images/Revendeur.jpg",
         youtube: "null",
-        tech: ["cplusplus", "qt"]
+        tech: ["c++", "qt"]
     },
 ];
 
@@ -111,7 +111,7 @@ const icon_list = {
     qt: {
         url: "../files/images/icons/qt.svg"
     },
-    cplusplus: {
+    "c++": {
         url: "../files/images/icons/cplusplus.svg"
     },
     python: {
@@ -135,7 +135,7 @@ const icon_list = {
     css: {
         url: "../files/images/icons/css3.svg"
     },    
-    maria: {
+    mariadb: {
         url: "../files/images/icons/mariadb.svg"
     },
     three: {
@@ -484,7 +484,9 @@ function create_rock(World, engine, Bodies){
 }
 
 function create_leaf(World, engine, Bodies){    
-    var leaf = Bodies.rectangle(dice(0, window.innerWidth), 0, 25, 8)
+    var leaf = Bodies.rectangle(dice(0, window.innerWidth), 0, 25, 8, {        
+        frictionAir: 0.2,
+    })
     leaf.render.sprite.texture = "../files/images/rocks/leaf.png"
     World.add(engine.world, [leaf])
 }
