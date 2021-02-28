@@ -133,28 +133,14 @@ const icon_list = {
 export function main() {
     document.addEventListener("DOMContentLoaded", () => {
         // BUILD INTERFACE 
-        let body = document.getElementById("body_container");
-        let header = document.getElementById("header");
+        let body = document.getElementById("body_container")
+        let header = document.getElementById("header")
 
         let new_div;
         let new_elem_text;
         let new_elem_image;
         let new_elem;
         for (let i = 0; i < data.length; i++) {
-
-            // CREATE ROCK SCENE 
-            if (i == 4){
-                new_div = document.createElement("div")
-                new_div.id = "rock_scene"
-                
-                new_elem_image = document.createElement("img")
-                new_elem_image.src = "../files/images/dog.gif"
-                new_elem_image.id = "dogo"
-                
-                new_div.appendChild(new_elem_image)
-                body.appendChild(new_div)
-            }
-
             // BUILD DIVS
             new_div = document.createElement("div")
             new_elem_text = document.createElement("div")
@@ -169,7 +155,7 @@ export function main() {
             // BUILD IMAGE
             new_elem = document.createElement("img")
             new_elem.src = data[i].image
-            new_elem.className = "row"
+            new_elem.className = "row image_holder"
             new_elem.dataset.angle = `${dice(0, 10) - 5}`
             new_elem.style.transform = `rotate(${ new_elem.dataset.angle }deg)`
             new_elem_image.children[0].appendChild(new_elem)
@@ -199,6 +185,17 @@ export function main() {
             new_div.appendChild(new_elem_image)
             body.appendChild(new_div)
         }
+        
+        // CREATE ROCK SCENE 
+        new_div = document.createElement("div")
+        new_div.id = "rock_scene"
+        
+        new_elem_image = document.createElement("img")
+        new_elem_image.src = "../files/images/dog.gif"
+        new_elem_image.id = "dogo"
+        
+        new_div.appendChild(new_elem_image)
+        body.appendChild(new_div)
 
         // BUILD SCENE
         build_events()  
@@ -206,56 +203,63 @@ export function main() {
         // BUILD SCENE
         render_3D_scene(header)
         render_2d_scene()
+
+        setTimeout(() => {
+            document.getElementById("mainLayout").style.display = "block"
+            document.getElementById("page_entry").className = "open"
+            window.scrollTo(0, 0)
+        }, 1000)
     });
 }
 
 // CREATE ANIMATIONS 
 function build_events(){
     // BUILD CURSOR 
-    const images = document.getElementsByTagName("img")
-    const cursor_custom = document.getElementById("cursor_custom")
+    const images = document.getElementsByClassName("image_holder")
+    const cursor_custom = document.querySelector(".cursor_custom")
+    const cursor_expand = document.querySelector(".cursor_expand")
     const html = document.getElementsByTagName("html")
+    const text_surface = document.getElementsByClassName("text_div")
 
     // CUSTOM CURSOR
     document.addEventListener("mousemove", event => {
-        cursor_custom.style.top = `${event.pageY}px`
-        cursor_custom.style.left = `${event.pageX}px`
+        cursor_custom.style.top = `${event.pageY - 5}px`
+        cursor_custom.style.left = `${event.pageX - 5}px`
+
+        cursor_expand.style.top = `${event.pageY - 2.5}px`
+        cursor_expand.style.left = `${event.pageX - 2.5}px`
     })
+
+
+    for (const i of text_surface){
+        i.addEventListener("mouseenter", () => {
+            cursor_custom.style.display = "block"
+            cursor_expand.style.display = "block"
+        })
+        i.addEventListener("mouseleave", () => {
+            cursor_custom.style.display = "none"
+            cursor_expand.style.display = "none"
+        }) 
+        i.addEventListener("click", () => {
+            console.log("in")
+            cursor_custom.classList.add("wave")
+            cursor_expand.classList.add("wave_expand")
+
+            setTimeout(() => {
+                cursor_custom.classList.remove("wave")
+                cursor_expand.classList.remove("wave_expand")
+            }, 500)
+        })
+    }
 
     // IMAGE RESIZE
     for (const i of images){
         i.addEventListener("mouseenter", () => {
-            cursor_custom.style.display = "block" 
             i.style.transform = `scale(1.1)`
         })
         i.addEventListener("mouseleave", () => {
-            cursor_custom.style.display = "none"
             i.style.transform = `scale(1) rotate(${ i.dataset.angle }deg)`
         })        
-    }
-
-    // MOVING TEXT
-    const text = document.getElementsByClassName("text_div")
-
-    for (const t of text){
-        t.addEventListener("mouseenter", () => {
-            t.dataset.in = "1"
-            t.dataset.half_width = t.offsetWidth / 2
-            t.dataset.half_height = t.offsetHeight / 2
-        })
-        t.addEventListener("mouseleave", () => {
-            t.dataset.in = "0"
-            t.style.top = 0
-            t.style.left = 0
-        })
-        t.addEventListener("mousemove", event => {
-            if (t.dataset.in == "1"){
-
-                var offsets = t.getBoundingClientRect()
-                t.style.left = `${((event.pageX - (offsets.left + window.scrollX)) -  t.dataset.half_width) / 10}px`
-                t.style.top = `${((event.pageY - (offsets.top + window.scrollY)) -  t.dataset.half_height) / 10}px`
-            }            
-        })
     }
 }
 
@@ -354,7 +358,7 @@ function render_2d_scene(){
     engine: engine,
     options: {
         wireframes: false,
-        height: 600,
+        height: 1000,
         width: document.body.offsetWidth,
         background: 'transparent',
     }
@@ -383,8 +387,7 @@ function render_2d_scene(){
     rock8.render.sprite.texture = "../files/images/rocks/rock8.png"
     rock9.render.sprite.texture = "../files/images/rocks/rock9.png"
 
-    var ground = Bodies.rectangle(400, 610, 810, 60, { isStatic: true })
-
+    var ground = Bodies.rectangle(0, 1030, 2100, 60, { isStatic: true })
 
     // mouse
     let mouse = Matter.Mouse.create(render.canvas)
@@ -397,8 +400,8 @@ function render_2d_scene(){
     render.mouse = mouse
 
     // Enable scroll page over the scene
-    mouse.element.removeEventListener("mousewheel", mouse_Constraint.mouse.mousewheel);
-    mouse.element.removeEventListener("DOMMouseScroll", mouse_Constraint.mouse.mousewheel);
+    mouse.element.removeEventListener("mousewheel", mouse_Constraint.mouse.mousewheel)
+    mouse.element.removeEventListener("DOMMouseScroll", mouse_Constraint.mouse.mousewheel)
 
     // Add bodies to the world
     World.add(engine.world, [rock1, rock2, rock3, rock4, rock5, rock6, rock7, rock8, rock9, ground, mouse_Constraint])
@@ -407,8 +410,4 @@ function render_2d_scene(){
     Engine.run(engine)
     // run the renderer
     Render.run(render)
-}
-
-function new_rock(){
-
 }
