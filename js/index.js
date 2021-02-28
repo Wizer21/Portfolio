@@ -7,7 +7,7 @@ let render_2d
 const data = [   
     {
         title: "Portfolio",
-        description: "Learning Django throught this project, imitating a social network.",
+        description: "Web portfolio, resuming all the projects I've realized.",
         git_link: "https://github.com/Wizer21/Portfolio",
         start_date: "24/02/2021",
         end_date: "28/02/2021",
@@ -322,7 +322,6 @@ function build_events(){
         renderer.setSize(document.getElementById("header").offsetWidth, document.getElementById("header").offsetHeight)
 
         render_2d.canvas.width = document.body.offsetWidth
-        render_2d.canvas.height = window.innerHeight/2
     })
 
     document.addEventListener("wheel", event => {

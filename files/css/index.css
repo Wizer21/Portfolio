@@ -424,14 +424,27 @@ footer
     align-content: center;
 }
 
-#end_text
-{
-    position: relative;
+@media screen and (min-width: 1190px){    
+    #end_text
+    {
+        position: relative;
 
-    font-size: 2em;
-    top: 3em;
-    text-align: center;
+        font-size: 2em;
+        top: 3em;
+        text-align: center;
+    }
 }
+@media screen and (max-width: 1189px){    
+    #end_text
+    {
+        position: relative;
+
+        font-size: 1.2em;
+        top: 3em;
+        text-align: center;
+    }
+}
+
 
 #end_text::after
 {
@@ -454,12 +467,12 @@ footer
         width: 0.1em;
     }
     12.5%{
-        width: 15.1em;
+        width: 14.4em;
         height: 0.1em;
-        transform: translate(-14.5em, -0.3em);
+        transform: translate(-13.8em, -0.3em);
     }
     25%{        
-        transform: translate(-14.5em, -0.3em);
+        transform: translate(-13.8em, -0.3em);
         width: 0.1em;
         height: 0.1em;
     }
@@ -467,17 +480,17 @@ footer
     37.5%{
         width: 0.1em;
         height: 2em;
-        transform: translate(-14.5em, -0.3em);
+        transform: translate(-13.8em, -0.3em);
     }
     50%{        
-        transform: translate(-14.5em, 1.6em);
+        transform: translate(-13.8em, 1.6em);
         width: 0.1em;
         height: 0.1em;
     }
     /* go right */
     62.5%{        
-        transform: translate(-14.5em, 1.6em);
-        width: 15.1em;
+        transform: translate(-13.8em, 1.6em);
+        width: 14.4em;
         height: 0.1em;
     }
     75%{        
