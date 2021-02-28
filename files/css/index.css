@@ -1,6 +1,14 @@
 @font-face {
-font-family: Caveat;
-src: url(../font/Caveat-Regular.ttf);
+    font-family: Caveat;
+    src: url(../font/Caveat-Regular.ttf);
+}
+@font-face {
+    font-family: RobotoThin;
+    src: url(../font/Roboto-Thin.ttf);
+}
+@font-face {
+    font-family: RobotoThinMono;
+    src: url(../font/RobotoMono-Thin.ttf);
 }
 
 
@@ -8,7 +16,7 @@ src: url(../font/Caveat-Regular.ttf);
 html
 {
     font-size: 2em;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'RobotoThinMono';
     color: rgb(34, 34, 34);
     background-color: white;
 }
@@ -37,6 +45,7 @@ body
 }
 .open
 {
+    animation-timing-function: ease-out;
     animation: open_page 2s;
 }
 @keyframes open_page{
@@ -66,10 +75,12 @@ body
 }
 .wave
 {
+    animation-timing-function: easeout;
     animation: make_a_wave 500ms;
 }
 .wave_expand
 {
+    animation-timing-function: easeout;
     animation: make_a_wave_expand 500ms;
 }
 .cursor_expand
@@ -83,7 +94,6 @@ body
 
     display: none;    
     pointer-events: none;
-
 }
 @keyframes make_a_wave{
     0%{
@@ -119,6 +129,48 @@ body
     100%{
         transform: scale(40);
         opacity: 0%;
+    }
+}
+.git_cursor
+{
+    position: absolute;  
+    width: 40px;
+    height: 40px;
+    border: 1px solid transparent;
+    
+    z-index: 2;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: white;
+    align-content: center;
+    pointer-events: none;
+
+    transition-duration: 0ms;
+    transform: scale(0);    
+}
+.git_enter{
+    animation: git_enter 1s forwards;
+}
+.git_exit{
+    animation: git_exit 1s forwards;
+}
+@keyframes git_enter{
+    0%{
+        transform: scale(0);
+    }
+    50%{        
+        transform: scale(2.5);
+    }
+    100%{        
+        transform: scale(2);
+    }
+}
+@keyframes git_exit{
+    0%{
+        transform: scale(2);
+    }
+    100%{        
+        transform: scale(0);
     }
 }
 
@@ -158,10 +210,11 @@ img
     object-fit: contain;
     object-position: center;
     width: 100%;
-    height: 100%;
+    height: auto;
     z-index: 1;
 
     transition-duration: 500ms;
+    cursor: none;
 }
 
 .icon
@@ -169,6 +222,8 @@ img
     height: 2em;
     width: 2em;
     margin: 20px;
+    transition-duration: 500ms;
+
 }
 .icon:hover
 {
@@ -204,7 +259,6 @@ h1
     object-position: center;
     width: 100%;
     height: 100%;
-
 }
 
 .title
@@ -226,17 +280,14 @@ h1
 {
     grid-row: 1;
     grid-column: 1;
-    padding: 2em;
+    padding: 4vh;
     z-index: 1;
+    align-content: center;
 }
 #canvas_3d
 {
     grid-row: 1;
     grid-column: 1;
-    margin-left: auto;
-    margin-top: auto;
-    margin-right: 0;
-    margin-bottom: 0;
 }
 
 .inline
@@ -256,13 +307,10 @@ h1
 {
     display: grid;
     grid-template-rows: 1, 1fr; 
-    overflow: visible;
 
-    height: 67vh;
-    padding-top: 5vh;
+    height: 50vh;
 
     position:relative;
-    align-content:flex-start;
 }
 #dogo
 {
@@ -291,4 +339,88 @@ footer
 {
     background-color: #2b2b2b;
     height: 20em;
+    color: white;
+    font-family: 'RobotoThinMono';
+    
+    align-content: center;
+}
+
+#end_text
+{
+    position: relative;
+
+    font-size: 2em;
+    top: 3em;
+    text-align: center;
+}
+
+#end_text::after
+{
+    content: "";
+    position: absolute;
+
+    background-color: rgb(255, 255, 255);
+    height: 0.1em;
+    width: 0.1em;
+    z-index: 2;
+    
+    animation: square 5s infinite;
+}
+@keyframes square
+{
+    /* go left */
+    0%{
+        transform: translate(0.5em, -0.3em);
+        height: 0.1em;
+        width: 0.1em;
+    }
+    12.5%{
+        width: 15.1em;
+        height: 0.1em;
+        transform: translate(-14.5em, -0.3em);
+    }
+    25%{        
+        transform: translate(-14.5em, -0.3em);
+        width: 0.1em;
+        height: 0.1em;
+    }
+    /* go bottom */
+    37.5%{
+        width: 0.1em;
+        height: 2em;
+        transform: translate(-14.5em, -0.3em);
+    }
+    50%{        
+        transform: translate(-14.5em, 1.6em);
+        width: 0.1em;
+        height: 0.1em;
+    }
+    /* go right */
+    62.5%{        
+        transform: translate(-14.5em, 1.6em);
+        width: 15.1em;
+        height: 0.1em;
+    }
+    75%{        
+        transform: translate(0.5em, 1.6em);
+        width: 0.1em;
+        height: 0.1em;
+    }
+    /* go top */
+    87.5%{
+        transform: translate(0.5em, -0.3em);
+        width: 0.1em;
+        height: 2em;
+    }
+    100%{
+        transform: translate(0.5em, -0.3em);
+        height: 0.1em;
+        width: 0.1em;
+    }
+}
+
+.loaded_image
+{
+    position: relative;
+    align-self: center;
 }

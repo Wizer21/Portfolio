@@ -3,8 +3,7 @@ import { OrbitControls } from "../files/threejs/OrbitControls.js"
 import { GLTFLoader } from '../files/threejs/GLTFLoader.js'
 //import { Matter } from '../files/matterjs/matter.min.js'
 
-var sphere_list = []
-
+let renderer
 const data = [    
     {
         title: "Swich Network",
@@ -130,6 +129,19 @@ const icon_list = {
         url: "../files/images/icons/mariadb.svg"
     }    
 }
+
+const rock_list = [
+    "../files/images/rocks/rock1.png",
+    "../files/images/rocks/rock2.png",
+    "../files/images/rocks/rock3.png",
+    "../files/images/rocks/rock4.png",
+    "../files/images/rocks/rock5.png",
+    "../files/images/rocks/rock6.png",
+    "../files/images/rocks/rock7.png",
+    "../files/images/rocks/rock8.png",
+    "../files/images/rocks/rock9.png"
+]
+
 export function main() {
     document.addEventListener("DOMContentLoaded", () => {
         // BUILD INTERFACE 
@@ -174,10 +186,10 @@ export function main() {
             new_div.className = "parent row"
             if (i % 2 == 0) {
                 new_elem_text.className = "right_col text_div"
-                new_elem_image.className = "left_col"
+                new_elem_image.className = "left_col loaded_image"
             } else {
                 new_elem_text.className = "left_col text_div"
-                new_elem_image.className = "right_col"
+                new_elem_image.className = "right_col loaded_image"
             }
 
             // STRUCTURE
@@ -206,8 +218,10 @@ export function main() {
 
         setTimeout(() => {
             document.getElementById("mainLayout").style.display = "block"
-            document.getElementById("page_entry").className = "open"
+            renderer.setSize(document.getElementById("header").offsetWidth, document.getElementById("header").offsetHeight)
             window.scrollTo(0, 0)
+
+            document.getElementById("page_entry").className = "open"
         }, 1000)
     });
 }
@@ -218,8 +232,12 @@ function build_events(){
     const images = document.getElementsByClassName("image_holder")
     const cursor_custom = document.querySelector(".cursor_custom")
     const cursor_expand = document.querySelector(".cursor_expand")
+    const cursor_git = document.querySelector(".git_cursor")
+
     const html = document.getElementsByTagName("html")
     const text_surface = document.getElementsByClassName("text_div")
+    const icons = document.getElementsByClassName("icon")
+
 
     // CUSTOM CURSOR
     document.addEventListener("mousemove", event => {
@@ -228,7 +246,30 @@ function build_events(){
 
         cursor_expand.style.top = `${event.pageY - 2.5}px`
         cursor_expand.style.left = `${event.pageX - 2.5}px`
+
+        cursor_git.style.top = `${event.pageY - 20}px`
+        cursor_git.style.left = `${event.pageX - 20}px`
     })
+
+    // ICON SLIDE ON SHOW
+    for (const a of icons){
+        a.addEventListener("show", event => {
+            console.log("show")
+            a.style.transform = "scale(5)"
+        })
+    }
+
+    // GIT ICON
+    for (const e of images){
+        e.addEventListener("mouseenter", () => {
+            cursor_git.classList.remove("git_exit")
+            cursor_git.classList.add("git_enter")
+        })
+        e.addEventListener("mouseleave", () => {
+            cursor_git.classList.remove("git_enter")
+            cursor_git.classList.add("git_exit")
+        })
+    }
 
 
     for (const i of text_surface){
@@ -241,7 +282,6 @@ function build_events(){
             cursor_expand.style.display = "none"
         }) 
         i.addEventListener("click", () => {
-            console.log("in")
             cursor_custom.classList.add("wave")
             cursor_expand.classList.add("wave_expand")
 
@@ -289,14 +329,13 @@ function render_3D_scene(container_3D) {
     // Camera
     const camera = new THREE.PerspectiveCamera(
         75,
-        window.innerWidth * 0.98 / (window.innerHeight/2),
+        window.innerWidth * 0.99 / (window.innerHeight/2),
         0.1,
         1000
     )
 
     // Render
-    const renderer = new THREE.WebGLRenderer({ alpha: true })
-    renderer.setSize(window.innerWidth * 0.99, window.innerHeight/2 * 0.99)
+    renderer = new THREE.WebGLRenderer({ alpha: true })
     renderer.setClearColor( 0x000000, 0 )
     renderer.domElement.id = "canvas_3d"
     container_3D.appendChild(renderer.domElement)
@@ -358,36 +397,18 @@ function render_2d_scene(){
     engine: engine,
     options: {
         wireframes: false,
-        height: 1000,
+        height: window.innerHeight/2,
         width: document.body.offsetWidth,
         background: 'transparent',
     }
     });
 
     // create two boxes and a ground
-    let radius = 40
-    let sides = 4
-    var rock1 = Bodies.polygon(200, 220, sides, radius)
-    var rock2 = Bodies.polygon(200, 500, sides, radius)
-    var rock3 = Bodies.polygon(200, 300, sides, radius)
-    var rock4 = Bodies.polygon(300, 200, sides, radius)
-    var rock5 = Bodies.polygon(300, 300, sides, radius)
-    var rock6 = Bodies.polygon(300, 300, sides, radius)
-    var rock7 = Bodies.polygon(300, 500, sides, radius)
-    var rock8 = Bodies.polygon(400, 200, sides, radius)
-    var rock9 = Bodies.polygon(400, 200, sides, radius)
+    for (let i = 0; i < 50; i++){
+        create_rock(World, engine, Bodies)
+    }
 
-    rock1.render.sprite.texture = "../files/images/rocks/rock1.png"
-    rock2.render.sprite.texture = "../files/images/rocks/rock2.png"
-    rock3.render.sprite.texture = "../files/images/rocks/rock3.png"
-    rock4.render.sprite.texture = "../files/images/rocks/rock4.png"
-    rock5.render.sprite.texture = "../files/images/rocks/rock5.png"
-    rock6.render.sprite.texture = "../files/images/rocks/rock6.png"
-    rock7.render.sprite.texture = "../files/images/rocks/rock7.png"
-    rock8.render.sprite.texture = "../files/images/rocks/rock8.png"
-    rock9.render.sprite.texture = "../files/images/rocks/rock9.png"
-
-    var ground = Bodies.rectangle(0, 1030, 2100, 60, { isStatic: true })
+    let ground = Bodies.rectangle(window.innerWidth/2, window.innerHeight/2 + 20, window.innerWidth, 20, { isStatic: true })
 
     // mouse
     let mouse = Matter.Mouse.create(render.canvas)
@@ -404,10 +425,16 @@ function render_2d_scene(){
     mouse.element.removeEventListener("DOMMouseScroll", mouse_Constraint.mouse.mousewheel)
 
     // Add bodies to the world
-    World.add(engine.world, [rock1, rock2, rock3, rock4, rock5, rock6, rock7, rock8, rock9, ground, mouse_Constraint])
+    World.add(engine.world, [ground, mouse_Constraint])
 
     // run the engine
     Engine.run(engine)
     // run the renderer
     Render.run(render)
+}
+
+function create_rock(World, engine, Bodies){
+    var rock = Bodies.polygon(dice(100, 500), dice(200, 400), 4, 40)
+    rock.render.sprite.texture = rock_list[Math.round(dice(0, 8))]
+    World.add(engine.world, [rock])
 }
