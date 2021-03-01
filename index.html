@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Simon</title>
     <link rel="stylesheet" href="./files/css/index.css">
+    <link rel="stylesheet" href="./files/locomotive/locomotive-scroll.css">
 
     <link rel="apple-touch-icon" sizes="76x76" href="./files/images/logo//apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="./files/images/logo//favicon-32x32.png">
@@ -36,35 +37,41 @@
             Loading...
         </p>
     </div>
-    <div id="mainLayout" style="display: none;">
-        <!-- HEADER -->  
-        <div id="header">
-            <div id="header_text">
-                <h1 class="title">Development is not a job</h1>
-                <h1>It's a passion</h1>
-                <div class="round_container inline">         
-                    <a href="https://github.com/Wizer21">
-                        <img class="round_icon" src="./files/images/photo.jpg" atl="Profile picture">
-                    </a>
+    <div data-scroll-container >
+        <div data-scroll-section>
+            <div id="mainLayout" style="display: none;">        
+                <!-- HEADER -->  
+                <div id="header">
+                    <div id="header_text">
+                        <h1 class="title">Development is not a job</h1>
+                        <h1>It's a passion</h1>
+                        <div class="round_container inline">         
+                            <a href="https://github.com/Wizer21">
+                                <img class="round_icon" src="./files/images/projects_images/photo.jpg" atl="Profile picture">
+                            </a>
+                        </div>
+                        <p id="pseudo"class="inline">Simon</p>
+                    </div>
                 </div>
-                <p id="pseudo"class="inline">Simon</p>
-            </div>
+                <!-- BODY -->              
+                <div id="body_container">
+                </div>
+                <footer>
+                    <h1 id="end_text">
+                        Thank you for visiting 
+                    </h1>        
+                </footer>  
+            </div>  
         </div>
-        <!-- BODY -->              
-        <div id="body_container">
-        </div>
-        <footer>
-            <h1 id="end_text">
-                Thank you for visiting 
-            </h1>        
-        </footer>  
-    </div> 
-
+    </div>
+    
+    <script src="./files/locomotive/locomotive-scroll.min.js"></script>
     <script src="./files/matterjs/matter.min.js"></script>
     <script type="module">
+
         // Import our local module
         import { main } from "./js/index.js";
-
+      
         // Launch the DOMContentLoaded event listener
         main();
     </script>

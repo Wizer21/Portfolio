@@ -1,9 +1,10 @@
 import * as THREE from "../files/threejs/three.module.js"
-import { OrbitControls } from "../files/threejs/OrbitControls.js"
 import { GLTFLoader } from '../files/threejs/GLTFLoader.js'
 
 let renderer
 let render_2d
+let scene
+let scroll
 const data = [   
     {
         title: "Portfolio",
@@ -11,9 +12,9 @@ const data = [
         git_link: "https://github.com/Wizer21/Portfolio",
         start_date: "24/02/2021",
         end_date: "28/02/2021",
-        image: "../files/images/portfolio.jpg",
+        image: "../files/images/projects_images/portfolio.jpg",
         youtube: "null",
-        tech: ["javascript", "html", "css", "three", "matter"]
+        tech: ["javascript", "html", "css", "threejs", "matterjs"]
     }, 
     {
         title: "Swich Network",
@@ -21,7 +22,7 @@ const data = [
         git_link: "https://github.com/Wizer21/Swich_network",
         start_date: "20/02/2021",
         end_date: "22/02/2021",
-        image: "../files/images/network.jpg",
+        image: "../files/images/projects_images/network.jpg",
         youtube: "null",
         tech: ["python", "django", "javascript", "html", "css"]
     },
@@ -31,7 +32,7 @@ const data = [
         git_link: "https://github.com/Wizer21/6Servo_Robot_Arm",
         start_date: "01/02/2021",
         end_date: "19/02/2021",
-        image: "../files/images/arm.jpg",
+        image: "../files/images/projects_images/arm.jpg",
         youtube: "null",
         tech: ["python", "qt", "raspberry"]
     },
@@ -41,7 +42,7 @@ const data = [
         git_link: "https://github.com/Wizer21/TrackerRobot",
         start_date: "17/01/2021",
         end_date: "01/02/2021",
-        image: "../files/images/robot_tracking.jpg",
+        image: "../files/images/projects_images/robot_tracking.jpg",
         youtube: "null",
         tech: ["python", "qt", "raspberry"]
     },
@@ -51,7 +52,7 @@ const data = [
         git_link: "https://github.com/Wizer21/Connected_canvas",
         start_date: "06/01/2021",
         end_date: "16/01/2021",
-        image: "../files/images/canvas.jpg",
+        image: "../files/images/projects_images/canvas.jpg",
         youtube: "null",
         tech: ["c++", "qt", "nodejs"]
     },
@@ -61,7 +62,7 @@ const data = [
         git_link: "https://github.com/Wizer21/OrderGenerator",
         start_date: "28/12/2020",
         end_date: "05/01/2021",
-        image: "../files/images/table_pres.jpg",
+        image: "../files/images/projects_images/table_pres.jpg",
         youtube: "null",
         tech: ["python", "qt"]
     },
@@ -71,7 +72,7 @@ const data = [
         git_link: "https://github.com/Wizer21/Image_Tracker",
         start_date: "11/12/2020",
         end_date: "28/12/2020",
-        image: "../files/images/green.jpg",
+        image: "../files/images/projects_images/green.jpg",
         youtube: "null",
         tech: ["python", "qt"]
     },
@@ -81,7 +82,7 @@ const data = [
         git_link: "https://github.com/Wizer21/TicTacToe",
         start_date: "08/12/2020",
         end_date: "11/12/2020",
-        image: "../files/images/tictactoe.jpg",
+        image: "../files/images/projects_images/tictactoe.jpg",
         youtube: "null",
         tech: ["python", "qt"]
     },
@@ -91,7 +92,7 @@ const data = [
         git_link: "https://github.com/Wizer21/Swich",
         start_date: "02/11/2020",
         end_date: "30/11/2020",
-        image: "../files/images/swich.jpg",
+        image: "../files/images/projects_images/swich.jpg",
         youtube: "null",
         tech: ["c++", "qt", "mariadb"]
     },
@@ -101,7 +102,7 @@ const data = [
         git_link: "https://github.com/Wizer21/SimulationRevendeur",
         start_date: "12/10/2020",
         end_date: "26/10/2020",
-        image: "../files/images/Revendeur.jpg",
+        image: "../files/images/projects_images/Revendeur.jpg",
         youtube: "null",
         tech: ["c++", "qt"]
     },
@@ -138,10 +139,10 @@ const icon_list = {
     mariadb: {
         url: "../files/images/icons/mariadb.svg"
     },
-    three: {
+    threejs: {
         url: "../files/images/icons/three-dot-js.svg"
     },
-    matter: {
+    matterjs: {
         url: "../files/images/icons/matter-js.svg"
     },
 
@@ -171,7 +172,7 @@ export function main() {
         let new_elem;
         for (let i = 0; i < data.length; i++) {
             // BUILD DIVS
-            new_div = document.createElement("div")
+            new_div = document.createElement("section")
             new_elem_text = document.createElement("div")
             new_elem_image = document.createElement("div")
 
@@ -199,6 +200,12 @@ export function main() {
                 elem.dataset.name = data[i].tech[icon]
                 new_elem_text.appendChild(elem)
             }
+
+            // Scroll
+            // new_div.dataset.scrollSection = ""
+            // new_elem_text.dataset.scroll = ""
+            // new_elem_text.dataset.scrollSpeed = "1"
+            // new_elem_text.dataset.scrollDirection = "horizontal"
 
             // SET POSITION
             new_div.className = "parent row"
@@ -233,15 +240,22 @@ export function main() {
         // BUILD SCENE
         render_3D_scene(header)
         render_2d_scene()
-
-        setTimeout(() => {
+        locomotive()
+   
+        setTimeout(() => {   
+            // Show main page
             document.getElementById("mainLayout").style.display = "block"
+            
+            // Set the 3D scene size, after the page loaded, allow to get the header height
             renderer.setSize(document.getElementById("header").offsetWidth, document.getElementById("header").offsetHeight * 1.01)
-            window.scrollTo(0, 0)
 
+            // Close the loading screen
             document.getElementById("page_entry").children[0].style.opacity = "0"
             document.getElementById("page_entry").className = "open"
-        }, 1000)
+            
+            // Resize the scroll container to the page
+            scroll.update()
+        }, 1500)
     });
 }
 
@@ -358,7 +372,7 @@ function build_element_icon(element, type, text) {
 // CREATE 3D SCENE
 function render_3D_scene(container_3D) {
     // Scene
-    const scene = new THREE.Scene();
+    scene = new THREE.Scene();
 
     // Light
     create_point_light(scene, [-10, 5, 0], "#ffffff", 1.5)
@@ -443,13 +457,17 @@ function render_2d_scene(){
     }
     });
 
-    let ground = Bodies.rectangle(window.innerWidth/2, window.innerHeight/2 + 20, window.innerWidth, 20, { isStatic: true })
+    let ground = Bodies.rectangle(window.innerWidth/2 - 200, window.innerHeight/2 + 20, window.innerWidth - 200, 20, { isStatic: true })
         
     // create two boxes and a ground
-    for (let i = 0; i < 50; i++){
-        create_rock(World, engine, Bodies)
+    let h = window.innerHeight/2
+    let pos_list = [[0, h], [0, h], [100, h], [200, h], [300, h], [400, h], [500, h], [600, h], [700, h], [800, h], 
+    [0, h - 100], [100, h - 100], [200, h - 100], [300, h - 100], [400, h - 100], [500, h - 100], [0, h - 200], [100, h - 200], [200, h - 200], [300, h - 200]]
+    for (let i of pos_list){
+        create_rock(World, engine, Bodies, i[0], i[1])
     }
-    for (let i = 0; i < window.innerWidth/10; i++){
+
+    for (let i = 0; i < window.innerWidth/25; i++){
         create_leaf(World, engine, Bodies)
     }
 
@@ -477,16 +495,23 @@ function render_2d_scene(){
     Render.run(render_2d)
 }
 
-function create_rock(World, engine, Bodies){
-    var rock = Bodies.polygon(dice(100, 500), dice(200, 400), 4, 40)
-    rock.render.sprite.texture = rock_list[Math.round(dice(0, 8))]
+function create_rock(World, engine, Bodies, w, h){
+    var rock = Bodies.rectangle(w, h, 100, 100)
+    rock.render.sprite.texture = "../files/images/rocks/stone.png"
     World.add(engine.world, [rock])
 }
 
 function create_leaf(World, engine, Bodies){    
-    var leaf = Bodies.rectangle(dice(0, window.innerWidth), 0, 25, 8, {        
+    var leaf = Bodies.rectangle(dice(0, window.innerWidth), dice(0, 100), 40, 40, {        
         frictionAir: 0.2,
     })
     leaf.render.sprite.texture = "../files/images/rocks/leaf.png"
     World.add(engine.world, [leaf])
+}
+
+function locomotive(){
+    scroll = new LocomotiveScroll({
+        el: document.querySelector('[data-scroll-container]'),
+        smooth: true
+    })
 }
