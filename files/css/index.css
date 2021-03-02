@@ -7,7 +7,9 @@
     src: url(../font/RobotoMono-Thin.ttf);
 }
 
-
+*{
+    box-sizing: border-box;
+}
 /* MAIN STRUCTURE */
 html
 {

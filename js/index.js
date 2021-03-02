@@ -204,7 +204,7 @@ export function main() {
             // Scroll
             // new_div.dataset.scrollSection = ""
             // new_elem_text.dataset.scroll = ""
-            // new_elem_text.dataset.scrollSpeed = "1"
+            // new_elem_text.dataset.scrollSpeed = "3"
             // new_elem_text.dataset.scrollDirection = "horizontal"
 
             // SET POSITION
@@ -457,7 +457,8 @@ function render_2d_scene(){
     }
     });
 
-    let ground = Bodies.rectangle(window.innerWidth/2 - 200, window.innerHeight/2 + 20, window.innerWidth - 200, 20, { isStatic: true })
+    console.log(window.innerWidth)
+    let ground = Bodies.rectangle(window.innerWidth/2 - 200, window.innerHeight/2 + 20, window.innerWidth + 400, 20, { isStatic: true })
         
     // create two boxes and a ground
     let h = window.innerHeight/2
