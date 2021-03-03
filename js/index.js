@@ -24,7 +24,7 @@ const data = [
         end_date: "22/02/2021",
         image: "../files/images/projects_images/network.jpg",
         youtube: "null",
-        tech: ["python", "django", "javascript", "html", "css"]
+        tech: ["python", "django", "javascript", "html", "css", "bulma"]
     },
     {
         title: "Robot arm",
@@ -144,7 +144,10 @@ const icon_list = {
     },
     matterjs: {
         url: "../files/images/icons/matter-js.svg"
-    },
+    },    
+    bulma: {
+        url: "../files/images/icons/bulma.svg"
+    }
 
 }
 
