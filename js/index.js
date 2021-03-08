@@ -7,6 +7,16 @@ let scene
 let scroll
 const data = [   
     {
+        title: "Shop",
+        description: "Minimalist online plant store",
+        git_link: "https://github.com/Wizer21/Shop",
+        start_date: "03/03/2021",
+        end_date: "",
+        image: "../files/images/projects_images/shop.jpg",
+        youtube: "null",
+        tech: ["javascript", "html", "css", "vuejs", "matterjs"]
+    }, 
+    {
         title: "Portfolio",
         description: "Web portfolio, resuming all the projects I've realized.",
         git_link: "https://github.com/Wizer21/Portfolio",
@@ -54,7 +64,7 @@ const data = [
         end_date: "16/01/2021",
         image: "../files/images/projects_images/canvas.jpg",
         youtube: "null",
-        tech: ["c++", "qt", "nodejs"]
+        tech: ["c++", "qt", "nodejs", "lowdb"]
     },
     {
         title: "Command Generator",
@@ -147,7 +157,13 @@ const icon_list = {
     },    
     bulma: {
         url: "../files/images/icons/bulma.svg"
-    }
+    },
+    lowdb: {
+        url: '../files/images/icons/lowdb.svg'
+    },
+    vuejs: {
+        url: '../files/images/icons/vuejs.svg'
+    },
 
 }
 
@@ -189,7 +205,7 @@ export function main() {
             new_elem = document.createElement("img")
             new_elem.src = data[i].image
             new_elem.className = "row image_holder"
-            new_elem.dataset.angle = `${dice(0, 10) - 5}`
+            new_elem.dataset.angle = `${dice(0, 8) - 4}`
             new_elem.style.transform = `rotate(${ new_elem.dataset.angle }deg)`
             new_elem_image.children[0].appendChild(new_elem)
 
@@ -458,7 +474,7 @@ function render_2d_scene(){
         width: document.body.offsetWidth,
         background: 'transparent',
     }
-    });
+    })
 
     console.log(window.innerWidth)
     let ground = Bodies.rectangle(window.innerWidth/2 - 200, window.innerHeight/2 + 20, window.innerWidth + 400, 20, { isStatic: true })
