@@ -14,7 +14,7 @@ const data = [
         end_date: "",
         image: "../files/images/projects_images/shop.jpg",
         youtube: "null",
-        tech: ["javascript", "html", "css", "vuejs", "matterjs"]
+        tech: ["javascript", "html", "css", "vuejs", "lowdb"]
     }, 
     {
         title: "Portfolio",
