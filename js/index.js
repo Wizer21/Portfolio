@@ -7,11 +7,22 @@ let scene
 let scroll
 const data = [   
     {
+        title: "Reliance",
+        description: "Showcase page of the music band Reliance",
+        git_link: "https://github.com/Wizer21/Shop",
+        page_link: "https://relianceband.herokuapp.com/",
+        start_date: "12/03/2021",
+        end_date: "20/03/2021",
+        image: "../files/images/projects_images/reliance.jpg",
+        youtube: "null",
+        tech: ["javascript", "html", "css", "vuejs", "threejs", "locomotive"]
+    }, 
+    {
         title: "Shop",
         description: "Minimalist online plant store",
         git_link: "https://github.com/Wizer21/Shop",
         start_date: "03/03/2021",
-        end_date: "",
+        end_date: "11/03/2021",
         image: "../files/images/projects_images/shop.jpg",
         youtube: "null",
         tech: ["javascript", "html", "css", "vuejs", "lowdb"]
@@ -21,7 +32,7 @@ const data = [
         description: "Web portfolio, resuming all the projects I've realized.",
         git_link: "https://github.com/Wizer21/Portfolio",
         start_date: "24/02/2021",
-        end_date: "28/02/2021",
+        end_date: "02/03/2021",
         image: "../files/images/projects_images/portfolio.jpg",
         youtube: "null",
         tech: ["javascript", "html", "css", "threejs", "matterjs"]
@@ -164,6 +175,9 @@ const icon_list = {
     vuejs: {
         url: '../files/images/icons/vuejs.svg'
     },
+    locomotive: {
+        url: '../files/images/icons/locomotive.svg'
+    },
 
 }
 
@@ -186,6 +200,7 @@ export function main() {
         let header = document.getElementById("header")
 
         let new_div;
+        let new_link;
         let new_elem_text;
         let new_elem_image;
         let new_elem;
@@ -209,11 +224,25 @@ export function main() {
             new_elem.style.transform = `rotate(${ new_elem.dataset.angle }deg)`
             new_elem_image.children[0].appendChild(new_elem)
 
-            // BUILD DESCRIPTION
+            // BUILD DESCRIPTION / START//END 
             new_elem_text.appendChild(build_element_with_text(new_elem, "h1", data[i].title))
             new_elem_text.appendChild(build_element_with_text(new_elem, "p", data[i].description))
             new_elem_text.appendChild(build_element_with_text(new_elem, "p", data[i].start_date + " -> " + data[i].end_date))
 
+            // PAGE LINK            
+            if(data[i].page_link){                
+                new_link = document.createElement("a")
+                new_link.href = data[i].page_link
+                new_link.target = "_blank"
+
+                new_elem = document.createElement("p")
+                new_elem.className = "url_page_button"
+                new_elem.textContent = "Visit"
+
+                new_link.appendChild(new_elem)
+                new_elem_text.appendChild(new_link)
+            }
+            
             for (const icon in data[i].tech){
                 let elem = build_element_icon(new_elem, "img", icon_list[data[i].tech[icon]].url)
                 elem.dataset.name = data[i].tech[icon]
@@ -476,7 +505,6 @@ function render_2d_scene(){
     }
     })
 
-    console.log(window.innerWidth)
     let ground = Bodies.rectangle(window.innerWidth/2 - 200, window.innerHeight/2 + 20, window.innerWidth + 400, 20, { isStatic: true })
         
     // create two boxes and a ground
