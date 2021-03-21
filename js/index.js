@@ -7,6 +7,16 @@ let scene
 let scroll
 const data = [   
     {
+        title: "Monstera",
+        description: "Page showcasing the Monstera Deliciosa",
+        git_link: "https://github.com/Wizer21/Monstera",
+        page_link: "https://monsteraplant.herokuapp.com/",
+        start_date: "21/03/2021",
+        end_date: "In progress",
+        image: "../files/images/projects_images/monstera_page.jpg",
+        tech: ["javascript", "html", "css", "vuejs", "threejs", "locomotive"]
+    },  
+    {
         title: "Reliance",
         description: "Showcase page of the music band Reliance",
         git_link: "https://github.com/Wizer21/Shop",
@@ -14,7 +24,6 @@ const data = [
         start_date: "12/03/2021",
         end_date: "20/03/2021",
         image: "../files/images/projects_images/reliance.jpg",
-        youtube: "null",
         tech: ["javascript", "html", "css", "vuejs", "threejs", "locomotive"]
     }, 
     {
@@ -24,7 +33,6 @@ const data = [
         start_date: "03/03/2021",
         end_date: "11/03/2021",
         image: "../files/images/projects_images/shop.jpg",
-        youtube: "null",
         tech: ["javascript", "html", "css", "vuejs", "lowdb"]
     }, 
     {
@@ -34,7 +42,6 @@ const data = [
         start_date: "24/02/2021",
         end_date: "02/03/2021",
         image: "../files/images/projects_images/portfolio.jpg",
-        youtube: "null",
         tech: ["javascript", "html", "css", "threejs", "matterjs"]
     }, 
     {
@@ -44,7 +51,6 @@ const data = [
         start_date: "20/02/2021",
         end_date: "22/02/2021",
         image: "../files/images/projects_images/network.jpg",
-        youtube: "null",
         tech: ["python", "django", "javascript", "html", "css", "bulma"]
     },
     {
@@ -54,7 +60,6 @@ const data = [
         start_date: "01/02/2021",
         end_date: "19/02/2021",
         image: "../files/images/projects_images/arm.jpg",
-        youtube: "null",
         tech: ["python", "qt", "raspberry"]
     },
     {
@@ -64,7 +69,6 @@ const data = [
         start_date: "17/01/2021",
         end_date: "01/02/2021",
         image: "../files/images/projects_images/robot_tracking.jpg",
-        youtube: "null",
         tech: ["python", "qt", "raspberry"]
     },
     {
@@ -74,7 +78,6 @@ const data = [
         start_date: "06/01/2021",
         end_date: "16/01/2021",
         image: "../files/images/projects_images/canvas.jpg",
-        youtube: "null",
         tech: ["c++", "qt", "nodejs", "lowdb"]
     },
     {
@@ -84,7 +87,6 @@ const data = [
         start_date: "28/12/2020",
         end_date: "05/01/2021",
         image: "../files/images/projects_images/table_pres.jpg",
-        youtube: "null",
         tech: ["python", "qt"]
     },
     {
@@ -94,7 +96,6 @@ const data = [
         start_date: "11/12/2020",
         end_date: "28/12/2020",
         image: "../files/images/projects_images/green.jpg",
-        youtube: "null",
         tech: ["python", "qt"]
     },
     {
@@ -104,7 +105,6 @@ const data = [
         start_date: "08/12/2020",
         end_date: "11/12/2020",
         image: "../files/images/projects_images/tictactoe.jpg",
-        youtube: "null",
         tech: ["python", "qt"]
     },
     {
@@ -114,7 +114,6 @@ const data = [
         start_date: "02/11/2020",
         end_date: "30/11/2020",
         image: "../files/images/projects_images/swich.jpg",
-        youtube: "null",
         tech: ["c++", "qt", "mariadb"]
     },
     {
@@ -124,7 +123,6 @@ const data = [
         start_date: "12/10/2020",
         end_date: "26/10/2020",
         image: "../files/images/projects_images/Revendeur.jpg",
-        youtube: "null",
         tech: ["c++", "qt"]
     },
 ];
