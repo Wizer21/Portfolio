@@ -228,18 +228,17 @@ export function main() {
             new_elem_text.appendChild(build_element_with_text(new_elem, "p", data[i].start_date + " -> " + data[i].end_date))
 
             // PAGE LINK            
-            if(data[i].page_link){                
+            if(data[i].page_link){     
                 new_link = document.createElement("a")
                 new_link.href = data[i].page_link
                 new_link.target = "_blank"
+                new_link.className = "url_page_button"
+                new_link.textContent = "Visit"
 
-                new_elem = document.createElement("p")
-                new_elem.className = "url_page_button"
-                new_elem.textContent = "Visit"
-
-                new_link.appendChild(new_elem)
                 new_elem_text.appendChild(new_link)
             }
+            new_elem = document.createElement("br")
+            new_elem_text.appendChild(new_elem)
             
             for (const icon in data[i].tech){
                 let elem = build_element_icon(new_elem, "img", icon_list[data[i].tech[icon]].url)
