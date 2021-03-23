@@ -12,7 +12,7 @@ const data = [
         git_link: "https://github.com/Wizer21/Monstera",
         page_link: "https://monsteraplant.herokuapp.com/",
         start_date: "21/03/2021",
-        end_date: "In progress",
+        end_date: "23/03/2021",
         image: "../files/images/projects_images/monstera_page.jpg",
         tech: ["javascript", "html", "css", "vuejs", "threejs", "locomotive"]
     },  
